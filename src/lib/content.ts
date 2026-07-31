@@ -22,7 +22,14 @@ export function getLatestEntries<T extends PublishedEntry>(entries: T[], count: 
 }
 
 export function getReadingMinutes(body: string): number {
-  const wordCount = body.trim() ? body.trim().split(/\s+/).length : 0;
+  const cjkCharacterCount =
+    body.match(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/gu)
+      ?.length ?? 0;
+  const englishWordCount =
+    body
+      .replace(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/gu, ' ')
+      .match(/[\p{L}\p{N}]+/gu)?.length ?? 0;
+  const wordCount = cjkCharacterCount + englishWordCount;
 
   return Math.max(1, Math.ceil(wordCount / 200));
 }

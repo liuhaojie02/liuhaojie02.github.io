@@ -43,6 +43,10 @@ describe('content queries', () => {
     expect(getReadingMinutes('word '.repeat(201))).toBe(2);
   });
 
+  it('counts Chinese characters when estimating reading time', () => {
+    expect(getReadingMinutes('文'.repeat(201))).toBe(2);
+  });
+
   it('returns only featured projects up to the requested limit', () => {
     expect(getFeaturedEntries(projects, 2).map((entry) => entry.id)).toEqual([
       'first',
