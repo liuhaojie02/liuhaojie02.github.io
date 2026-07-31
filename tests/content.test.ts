@@ -1,4 +1,8 @@
+import { readdir, readFile } from 'node:fs/promises';
+import type { ZodType } from 'astro/zod';
+import { parseFrontmatter } from '@astrojs/markdown-remark';
 import { describe, expect, it } from 'vitest';
+import { projectSchema, writingSchema } from '../src/content/schemas';
 import {
   getFeaturedEntries,
   getLatestEntries,
@@ -19,6 +23,29 @@ const projects = [
   { id: 'second', data: { pubDate: new Date('2024-01-03'), featured: true } },
   { id: 'third', data: { pubDate: new Date('2024-01-04'), featured: true } },
 ];
+
+async function loadCollection(directoryName: string, schema: ZodType) {
+  const directory = new URL(`../src/content/${directoryName}/`, import.meta.url);
+  let filenames: string[];
+
+  try {
+    filenames = await readdir(directory, { recursive: true });
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return [];
+    throw error;
+  }
+
+  return Promise.all(
+    filenames
+      .filter((filename) => /\.mdx?$/.test(filename))
+      .map(async (filename) => {
+        const source = await readFile(new URL(filename, directory), 'utf8');
+        const { frontmatter } = parseFrontmatter(source);
+
+        return { id: filename.replace(/\.mdx?$/, ''), data: schema.parse(frontmatter) };
+      }),
+  );
+}
 
 describe('content queries', () => {
   it('excludes drafts and sorts published entries in reverse chronological order', () => {
@@ -52,5 +79,19 @@ describe('content queries', () => {
       'first',
       'second',
     ]);
+  });
+
+  it('loads the public starter entries from the configured collections', async () => {
+    const [articles, notes, projects] = await Promise.all([
+      loadCollection('articles', writingSchema),
+      loadCollection('notes', writingSchema),
+      loadCollection('projects', projectSchema),
+    ]);
+    const publishedArticles = getPublishedEntries(articles);
+    const publishedNotes = getPublishedEntries(notes);
+
+    expect(publishedArticles).toHaveLength(3);
+    expect(publishedNotes).toHaveLength(1);
+    expect(projects).toHaveLength(2);
   });
 });
