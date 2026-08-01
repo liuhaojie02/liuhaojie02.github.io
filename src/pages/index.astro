@@ -50,7 +50,9 @@ const featuredProjects = getFeaturedEntries(projects, 2);
         id="projects-heading"
       />
       <div class="portfolio-grid">
-        {featuredProjects.map((entry) => <PortfolioCard entry={entry} headingLevel="h3" />)}
+        {featuredProjects.map((entry) => (
+          <PortfolioCard entry={entry} href={withBasePath(`projects/${entry.id}/`)} headingLevel="h3" />
+        ))}
       </div>
     </div>
   </section>

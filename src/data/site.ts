@@ -4,6 +4,12 @@ export function withBasePath(path: string, base = import.meta.env.BASE_URL): str
   return `${baseWithTrailingSlash}${path.replace(/^\/+/, '')}`;
 }
 
+export function toBaseAwareAssetUrl(assetUrl: string, base = import.meta.env.BASE_URL): string {
+  if (/^[a-z][a-z\d+.-]*:/i.test(assetUrl) || assetUrl.startsWith('//')) return assetUrl;
+
+  return withBasePath(assetUrl, base);
+}
+
 export const site = {
   title: 'liuhaojie 的个人博客',
   description: '记录技术实践、日常思考与持续完成的作品。',

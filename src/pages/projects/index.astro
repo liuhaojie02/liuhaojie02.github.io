@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import PortfolioCard from '../../components/PortfolioCard.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBasePath } from '../../data/site';
 
 const projects = (await getCollection('projects')).sort((a, b) => b.data.year - a.data.year);
 ---
@@ -13,6 +14,6 @@ const projects = (await getCollection('projects')).sort((a, b) => b.data.year - 
     <p>我更关心东西是否真正完成，是否帮助了某个具体的人，以及从中学到了什么。</p>
   </header>
   <div class="portfolio-grid portfolio-grid--page shell">
-    {projects.map((entry) => <PortfolioCard entry={entry} />)}
+    {projects.map((entry) => <PortfolioCard entry={entry} href={withBasePath(`projects/${entry.id}/`)} />)}
   </div>
 </BaseLayout>

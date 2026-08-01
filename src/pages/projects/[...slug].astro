@@ -1,0 +1,54 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBasePath } from '../../data/site';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+
+  return projects.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'projects'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.summary} pageClass="article-page">
+  <article class="article-shell project-detail shell">
+    <header class="article-header">
+      <a class="back-link" href={withBasePath('projects/')}>← 返回作品</a>
+      <h1>{entry.data.title}</h1>
+      <p class="article-deck">{entry.data.summary}</p>
+      <dl class="project-meta">
+        <div>
+          <dt>年份</dt>
+          <dd>{entry.data.year}</dd>
+        </div>
+        <div>
+          <dt>技术与主题</dt>
+          <dd>
+            <ul class="tag-list">
+              {entry.data.tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          </dd>
+        </div>
+      </dl>
+      {(entry.data.url || entry.data.repository) && (
+        <div class="project-links project-detail-links">
+          {entry.data.url && <a href={entry.data.url}>访问作品 <span aria-hidden="true">↗</span></a>}
+          {entry.data.repository && <a href={entry.data.repository}>查看源码 <span aria-hidden="true">↗</span></a>}
+        </div>
+      )}
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

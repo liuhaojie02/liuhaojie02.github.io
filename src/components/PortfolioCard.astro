@@ -3,10 +3,11 @@ import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   entry: CollectionEntry<'projects'>;
+  href: string;
   headingLevel?: 'h2' | 'h3';
 }
 
-const { entry, headingLevel = 'h2' } = Astro.props;
+const { entry, href, headingLevel = 'h2' } = Astro.props;
 const Heading = headingLevel;
 ---
 
@@ -15,15 +16,14 @@ const Heading = headingLevel;
     <span class="project-year">{entry.data.year}</span>
     {entry.data.featured && <span class="featured-label">精选</span>}
   </div>
-  <Heading>{entry.data.title}</Heading>
+  <Heading><a href={href}>{entry.data.title}</a></Heading>
   <p>{entry.data.summary}</p>
   <ul class="tag-list" aria-label={`${entry.data.title} 使用的技术`}>
     {entry.data.tags.map((tag) => <li>{tag}</li>)}
   </ul>
-  {(entry.data.url || entry.data.repository) && (
-    <div class="project-links">
+  <div class="project-links">
+      <a href={href} aria-label={`查看《${entry.data.title}》的详情`}>查看详情 <span aria-hidden="true">→</span></a>
       {entry.data.url && <a href={entry.data.url}>访问作品 <span aria-hidden="true">↗</span></a>}
       {entry.data.repository && <a href={entry.data.repository}>查看源码 <span aria-hidden="true">↗</span></a>}
-    </div>
-  )}
+  </div>
 </article>

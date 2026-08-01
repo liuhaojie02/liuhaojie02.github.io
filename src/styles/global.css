@@ -256,9 +256,13 @@ h3 { font-size: clamp(1.35rem, 2.5vw, 1.75rem); }
 }
 
 .article-card h2 a,
-.article-card h3 a { text-decoration: none; }
+.article-card h3 a,
+.portfolio-card h2 a,
+.portfolio-card h3 a { text-decoration: none; }
 .article-card h2 a:hover,
-.article-card h3 a:hover { color: var(--blue); }
+.article-card h3 a:hover,
+.portfolio-card h2 a:hover,
+.portfolio-card h3 a:hover { color: var(--blue); }
 
 .article-card > p,
 .portfolio-card > p {
@@ -359,6 +363,19 @@ h3 { font-size: clamp(1.35rem, 2.5vw, 1.75rem); }
 .article-deck { margin-bottom: 1.4rem; }
 .article-header .article-meta { margin-bottom: 0; }
 .article-cover { width: 100%; margin-bottom: 2rem; }
+
+.project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2.25rem;
+  margin: 1.5rem 0 0;
+}
+
+.project-meta > div { display: flex; gap: 0.55rem; align-items: baseline; }
+.project-meta dt { color: var(--muted); font-size: 0.78rem; }
+.project-meta dd { margin: 0; font-size: 0.9rem; }
+.project-meta .tag-list { margin: 0; }
+.project-detail-links { margin-top: 1.5rem; }
 
 .prose { font-family: var(--serif); font-size: clamp(1.12rem, 1.7vw, 1.25rem); line-height: 1.86; }
 .prose > :last-child { margin-bottom: 0; }
