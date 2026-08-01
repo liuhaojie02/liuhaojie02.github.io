@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import ArticleCard from '../components/ArticleCard.astro';
+import PortfolioCard from '../components/PortfolioCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site, withBasePath } from '../data/site';
+import { getFeaturedEntries, getLatestEntries } from '../lib/content';
+
+const [articles, projects] = await Promise.all([
+  getCollection('articles'),
+  getCollection('projects'),
+]);
+const latestArticles = getLatestEntries(articles, 3);
+const featuredProjects = getFeaturedEntries(projects, 2);
+---
+
+<BaseLayout>
+  <section class="hero shell" aria-labelledby="hero-title">
+    <p class="eyebrow">个人写作 · 项目实践</p>
+    <h1 id="hero-title">{site.author.intro}</h1>
+    <p class="hero-copy">{site.description}在这里，把短暂的经验整理成可以长期返回的内容。</p>
+    <a class="button-link" href={withBasePath('articles/')}> 开始阅读 <span aria-hidden="true">→</span></a>
+  </section>
+
+  <section class="home-section shell" aria-labelledby="latest-heading">
+    <SectionHeading
+      eyebrow="Writing"
+      title="最新文章"
+      description="关于创造、工具与持续行动的长文。"
+      href={withBasePath('articles/')}
+      linkLabel="查看全部"
+      id="latest-heading"
+    />
+    <div class="article-grid">
+      {latestArticles.map((entry) => (
+        <ArticleCard entry={entry} href={withBasePath(`articles/${entry.id}/`)} headingLevel="h3" />
+      ))}
+    </div>
+  </section>
+
+  <section class="home-section home-section--tinted" aria-labelledby="projects-heading">
+    <div class="shell">
+      <SectionHeading
+        eyebrow="Selected work"
+        title="作品精选"
+        description="那些被完成、使用和反复改进的东西。"
+        href={withBasePath('projects/')}
+        linkLabel="所有作品"
+        id="projects-heading"
+      />
+      <div class="portfolio-grid">
+        {featuredProjects.map((entry) => <PortfolioCard entry={entry} headingLevel="h3" />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="profile-invite shell" aria-labelledby="profile-heading">
+    <p class="eyebrow">About</p>
+    <h2 id="profile-heading">保持好奇，也保持完成。</h2>
+    <p>{site.author.bio}</p>
+    <a class="text-link" href={withBasePath('about/')}> 了解更多 <span aria-hidden="true">→</span></a>
+  </section>
+</BaseLayout>

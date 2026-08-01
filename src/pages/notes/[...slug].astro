@@ -1,0 +1,41 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import ArticleMeta from '../../components/ArticleMeta.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBasePath } from '../../data/site';
+import { getPublishedEntries, getReadingMinutes } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const notes = getPublishedEntries(await getCollection('notes'));
+
+  return notes.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'notes'>;
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.description} pageClass="article-page">
+  <article class="article-shell shell">
+    <header class="article-header">
+      <a class="back-link" href={withBasePath('notes/')}>← 返回随笔</a>
+      <h1>{entry.data.title}</h1>
+      <p class="article-deck">{entry.data.description}</p>
+      <ArticleMeta
+        pubDate={entry.data.pubDate}
+        readingMinutes={getReadingMinutes(entry.body ?? '')}
+        tags={entry.data.tags}
+      />
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

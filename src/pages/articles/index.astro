@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import ArticleCard from '../../components/ArticleCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBasePath } from '../../data/site';
+import { getPublishedEntries } from '../../lib/content';
+
+const articles = getPublishedEntries(await getCollection('articles'));
+---
+
+<BaseLayout title="文章" description="关于创造、工具与持续行动的长文。">
+  <header class="page-header shell">
+    <p class="eyebrow">Writing</p>
+    <h1>文章</h1>
+    <p>用稍长的篇幅，拆解做事的方法，记录一个观点是如何长成的。</p>
+  </header>
+  <div class="listing shell">
+    {articles.map((entry) => (
+      <ArticleCard entry={entry} href={withBasePath(`articles/${entry.id}/`)} />
+    ))}
+  </div>
+</BaseLayout>

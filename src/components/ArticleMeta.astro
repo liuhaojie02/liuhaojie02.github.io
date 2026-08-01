@@ -1,0 +1,25 @@
+---
+interface Props {
+  pubDate: Date;
+  readingMinutes: number;
+  tags?: string[];
+}
+
+const { pubDate, readingMinutes, tags = [] } = Astro.props;
+const formattedDate = new Intl.DateTimeFormat('zh-CN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(pubDate);
+---
+
+<div class="article-meta">
+  <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+  <span aria-hidden="true">·</span>
+  <span>{readingMinutes} 分钟阅读</span>
+  {tags.length > 0 && (
+    <ul class="tag-list" aria-label="标签">
+      {tags.map((tag) => <li>{tag}</li>)}
+    </ul>
+  )}
+</div>

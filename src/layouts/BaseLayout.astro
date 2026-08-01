@@ -1,0 +1,76 @@
+---
+import { site } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  pageClass?: string;
+}
+
+const {
+  title,
+  description = site.description,
+  pageClass = '',
+} = Astro.props;
+const documentTitle = title ? `${title} · ${site.author.name}` : site.title;
+const homeHref = site.navigation[0].href;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f5f1e8" />
+    <title>{documentTitle}</title>
+  </head>
+  <body class={pageClass}>
+    <a class="skip-link" href="#main-content">跳至主要内容</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="site-mark" href={homeHref} aria-label={`${site.author.name} 首页`}>
+          <span aria-hidden="true">L</span>
+          <strong>{site.author.name}</strong>
+        </a>
+
+        <nav aria-label="主导航">
+          <ul class="nav-list">
+            {site.navigation.map((item) => {
+              const isHome = item.href === homeHref;
+              const isCurrent = isHome
+                ? Astro.url.pathname === item.href
+                : Astro.url.pathname.startsWith(item.href);
+
+              return (
+                <li>
+                  <a href={item.href} aria-current={isCurrent ? 'page' : undefined}>{item.label}</a>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <p>在写作和创造中，给时间留下坐标。</p>
+        <div class="footer-meta">
+          <span>© {new Date().getFullYear()} {site.author.name}</span>
+          <ul aria-label="社交链接">
+            {site.socialLinks.map((link) => (
+              <li><a href={link.href}>{link.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

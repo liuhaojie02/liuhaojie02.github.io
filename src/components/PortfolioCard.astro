@@ -1,0 +1,29 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'projects'>;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { entry, headingLevel = 'h2' } = Astro.props;
+const Heading = headingLevel;
+---
+
+<article class="portfolio-card">
+  <div class="portfolio-card__topline">
+    <span class="project-year">{entry.data.year}</span>
+    {entry.data.featured && <span class="featured-label">精选</span>}
+  </div>
+  <Heading>{entry.data.title}</Heading>
+  <p>{entry.data.summary}</p>
+  <ul class="tag-list" aria-label={`${entry.data.title} 使用的技术`}>
+    {entry.data.tags.map((tag) => <li>{tag}</li>)}
+  </ul>
+  {(entry.data.url || entry.data.repository) && (
+    <div class="project-links">
+      {entry.data.url && <a href={entry.data.url}>访问作品 <span aria-hidden="true">↗</span></a>}
+      {entry.data.repository && <a href={entry.data.repository}>查看源码 <span aria-hidden="true">↗</span></a>}
+    </div>
+  )}
+</article>

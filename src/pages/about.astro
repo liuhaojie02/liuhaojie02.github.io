@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout title="关于" description={`关于 ${site.author.name} 与这个站点。`}>
+  <div class="about-layout shell">
+    <header class="page-header about-intro">
+      <p class="eyebrow">About</p>
+      <h1>你好，我是 {site.author.name}。</h1>
+      <p>{site.author.bio}</p>
+    </header>
+
+    <div class="about-content">
+      <section>
+        <h2>我在关注什么</h2>
+        <p>我关注技术如何服务于真实问题，也关注写作、工具与个人工作流之间的关系。这些内容会随着实践不断更新。</p>
+      </section>
+
+      <section>
+        <h2>关于这个站点</h2>
+        <p>这里的长文、随笔和作品都以 Markdown 保存，并由 Astro 生成静态页面。没有跟踪脚本，也没有需要等待的客户端应用。</p>
+      </section>
+
+      <section>
+        <h2>保持联系</h2>
+        <p>如果你想讨论文章中的观点，或者有一个值得交流的项目，可以从下面的方式找到我。</p>
+        <ul class="contact-list">
+          {site.socialLinks.map((link) => (
+            <li><a href={link.href}>{link.label} <span aria-hidden="true">↗</span></a></li>
+          ))}
+        </ul>
+        <p class="location">目前所在：{site.author.location}</p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
