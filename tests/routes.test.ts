@@ -8,7 +8,22 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { site } from '../src/data/site';
 
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
-const launchPlaceholderMarkers = ['your-email@example.com', '请替换', '编辑提示'];
+const launchPlaceholderMarkers = [
+  'your-email@example.com',
+  '这里是个人简介占位文字。请替换为你的经历、关注方向，以及希望读者了解的信息。',
+  '请替换为你的所在地',
+  '编辑提示：这是示例文章。请把其中的经历、目标和表达替换成你自己的内容。',
+  '编辑提示：这是示例文章。请替换为你真正使用的工具、流程和经验。',
+  '编辑提示：这是示例文章。请用你的真实项目、数据和复盘结论替换本文。',
+  '编辑提示：这是示例随笔，请替换成你的真实观察。',
+  '编辑提示：发布前请确认上面的站点和仓库链接，并把项目说明替换为你的实际成果。',
+  '编辑提示：这是作品占位条目。请替换标题、简介、年份、技术标签和正文；如果项目已上线，可在 front matter 中添加 `url` 与 `repository`。',
+];
+
+function findLaunchPlaceholders(publicOutput: string): string[] {
+  return launchPlaceholderMarkers.filter((marker) => publicOutput.includes(marker));
+}
+
 let outputDirectory: string;
 let homeHtml: string;
 let publicHtml: string;
@@ -66,14 +81,32 @@ describe('public routes', () => {
 
   it('不发布启动占位符或缺失的联系信息', async () => {
     const publicSiteDataAndPages = `${JSON.stringify(site)}\n${publicHtml}`;
-    const exposedMarkers = launchPlaceholderMarkers.filter((marker) =>
-      publicSiteDataAndPages.includes(marker),
-    );
+    const exposedMarkers = findLaunchPlaceholders(publicSiteDataAndPages);
     const aboutHtml = await readFile(join(outputDirectory, 'about', 'index.html'), 'utf8');
 
     expect(exposedMarkers).toEqual([]);
     expect(aboutHtml).not.toContain('mailto:');
     expect(aboutHtml).not.toContain('目前所在：');
+  });
+});
+
+describe('launch placeholder detection', () => {
+  it('允许作者在普通正文中讨论短提示用语', () => {
+    const authorWrittenProse = '这篇文章讨论了“请替换”和“编辑提示”作为界面文案时的语气差异。';
+
+    expect(findLaunchPlaceholders(authorWrittenProse)).toEqual([]);
+  });
+
+  it('仍识别完整的旧模板提示与默认邮箱', () => {
+    const legacyTemplateOutput = [
+      '联系邮箱：your-email@example.com',
+      '编辑提示：这是示例文章。请把其中的经历、目标和表达替换成你自己的内容。',
+    ].join('\n');
+
+    expect(findLaunchPlaceholders(legacyTemplateOutput)).toEqual([
+      'your-email@example.com',
+      '编辑提示：这是示例文章。请把其中的经历、目标和表达替换成你自己的内容。',
+    ]);
   });
 });
 
