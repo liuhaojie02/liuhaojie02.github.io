@@ -98,14 +98,9 @@ export function getGitHubEditUrl(collection: EditableCollection, entryId: string
 
 Use `withBasePath('images/spring-blogs/hero-background.jpg')` for `site.assets.homeHero.src`, and store the reference repository URL as human-readable credit metadata.
 
-- [ ] **Step 5: Add a rendered asset-path assertion**
+- [ ] **Step 5: Preserve homepage rendering assertions for Task 3**
 
-Add to the public route test:
-
-```ts
-expect(homeHtml).toContain('images/spring-blogs/hero-background.jpg');
-expect(homeHtml).not.toContain('raw.githubusercontent.com/RRTiamo');
-```
+Task 1 does not render the homepage. Verify the local asset and site-data helper here; add the rendered home-page asset assertion in Task 3 after `HomeHero` exists.
 
 - [ ] **Step 6: Run focused tests and inspect the asset**
 
@@ -208,6 +203,8 @@ expect(homeHtml).toContain('class="home-hero"');
 expect(homeHtml).toContain('class="home-hero__background"');
 expect(homeHtml).toContain('fetchpriority="high"');
 expect(homeHtml).toContain('article-card article-card--featured');
+expect(homeHtml).toContain('images/spring-blogs/hero-background.jpg');
+expect(homeHtml).not.toContain('raw.githubusercontent.com/RRTiamo');
 expect(homeHtml.indexOf('最新文章')).toBeLessThan(homeHtml.indexOf('作品精选'));
 ```
 
