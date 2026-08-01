@@ -68,9 +68,16 @@ describe('public routes', () => {
     expect(homeHtml).toContain('class="home-hero__background"');
     expect(homeHtml).toContain('class="site-header site-header--overlay"');
     expect(homeHtml).toContain('fetchpriority="high"');
+    expect(homeHtml).toContain('<h1 id="hero-title">在安静处，持续创造。</h1>');
+    expect(homeHtml).toContain('阅读最新文章');
+    expect(homeHtml).toContain('浏览作品');
+    expect(homeHtml).toContain('最新写作');
     expect(homeHtml).toContain('article-card article-card--featured');
     expect(homeHtml).toContain('images/spring-blogs/hero-background.jpg');
     expect(homeHtml).not.toContain('raw.githubusercontent.com/RRTiamo');
+    expect(homeHtml).not.toContain(
+      '你好，这里是 liuhaojie 的个人博客，记录技术实践、写作方法与持续完成的作品。</h1>',
+    );
     expect(homeHtml.indexOf('最新文章')).toBeLessThan(homeHtml.indexOf('作品精选'));
   });
 

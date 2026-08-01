@@ -18,9 +18,14 @@ const featuredProjects = getFeaturedEntries(projects, 2);
 
 <BaseLayout headerMode="overlay" pageClass="home-page">
   <HomeHero
-    intro={site.author.intro}
-    description={`${site.description}在这里，把短暂的经验整理成可以长期返回的内容。`}
-    ctaHref={withBasePath('articles/')}
+    eyebrow={site.home.eyebrow}
+    title={site.home.title}
+    description={site.home.description}
+    primaryHref={withBasePath('articles/')}
+    primaryLabel={site.home.primaryAction}
+    secondaryHref={withBasePath('projects/')}
+    secondaryLabel={site.home.secondaryAction}
+    marker={site.home.marker}
     backgroundSrc={site.assets.homeHero.src}
   />
 

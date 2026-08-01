@@ -41,6 +41,14 @@ export const site = {
       sourceUrl: 'https://github.com/RRTiamo/spring_blogs',
     },
   },
+  home: {
+    eyebrow: 'THINK · MAKE · SHARE',
+    title: '在安静处，持续创造。',
+    description: '关于技术、写作与正在完成的作品。把短暂的经验，整理成值得反复返回的内容。',
+    primaryAction: '阅读最新文章',
+    secondaryAction: '浏览作品',
+    marker: '01 / PERSONAL JOURNAL',
+  },
   navigation: [
     { label: '首页', href: withBasePath('') },
     { label: '文章', href: withBasePath('articles/') },

@@ -1,12 +1,27 @@
 ---
 interface Props {
-  intro: string;
+  eyebrow: string;
+  title: string;
   description: string;
-  ctaHref: string;
+  primaryHref: string;
+  primaryLabel: string;
+  secondaryHref: string;
+  secondaryLabel: string;
+  marker: string;
   backgroundSrc: string;
 }
 
-const { intro, description, ctaHref, backgroundSrc } = Astro.props;
+const {
+  eyebrow,
+  title,
+  description,
+  primaryHref,
+  primaryLabel,
+  secondaryHref,
+  secondaryLabel,
+  marker,
+  backgroundSrc,
+} = Astro.props;
 ---
 
 <section class="home-hero" aria-labelledby="hero-title">
@@ -21,11 +36,15 @@ const { intro, description, ctaHref, backgroundSrc } = Astro.props;
   />
   <div class="home-hero__overlay" aria-hidden="true"></div>
   <div class="shell home-hero__content">
-    <p class="home-hero__eyebrow">Personal journal · 个人写作</p>
-    <h1 id="hero-title">{intro}</h1>
+    <p class="home-hero__eyebrow">{eyebrow}</p>
+    <div class="home-hero__title"><h1 id="hero-title">{title}</h1></div>
     <p class="home-hero__copy">{description}</p>
-    <a class="home-hero__cta" href={ctaHref}>
-      开始阅读 <span aria-hidden="true">→</span>
-    </a>
+    <div class="home-hero__actions">
+      <a class="home-hero__cta" href={primaryHref}>
+        {primaryLabel} <span aria-hidden="true">→</span>
+      </a>
+      <a class="home-hero__secondary-link" href={secondaryHref}>{secondaryLabel}</a>
+    </div>
   </div>
+  <p class="home-hero__marker" aria-hidden="true">{marker}</p>
 </section>

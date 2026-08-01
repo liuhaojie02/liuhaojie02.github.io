@@ -19,6 +19,7 @@ const searchableText = [...entry.data.tags, entry.data.title].join(' ').toLocale
   class:list={['article-card', { 'article-card--featured': featured }]}
   data-tags={searchableText}
 >
+  {featured && <p class="article-card__featured-label">最新写作</p>}
   <ArticleMeta
     pubDate={entry.data.pubDate}
     readingMinutes={getReadingMinutes(entry.body ?? '')}

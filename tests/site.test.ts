@@ -20,6 +20,13 @@ describe('site navigation', () => {
     ]);
   });
 
+  it('provides the compact configured home hero copy', async () => {
+    const { site } = await import('../src/data/site');
+
+    expect(site.home.title).toBe('在安静处，持续创造。');
+    expect(site.home.title).not.toContain('liuhaojie');
+  });
+
   it('creates GitHub edit links only for configured Markdown collections', async () => {
     const { getGitHubEditUrl } = await import('../src/data/site');
 
