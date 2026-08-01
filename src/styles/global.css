@@ -131,6 +131,11 @@ h3 { font-size: clamp(1.35rem, 2.5vw, 1.75rem); }
 .site-header--overlay .nav-list a:hover,
 .site-header--overlay .nav-list a[aria-current='page'] { color: #d3fbff; }
 
+.site-header--overlay :is(a, button, [tabindex]):focus-visible {
+  outline-color: #fff;
+  box-shadow: 0 0 0 2px rgb(23 50 56 / 0.8);
+}
+
 .site-mark {
   display: inline-flex;
   align-items: center;
