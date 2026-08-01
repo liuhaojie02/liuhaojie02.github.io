@@ -131,7 +131,6 @@ git commit -m "feat: add authorized blog hero asset"
 
 ```ts
 it('renders an accessible compact navigation shell', () => {
-  expect(homeHtml).toContain('class="site-header site-header--overlay"');
   expect(homeHtml).toContain('data-menu-toggle');
   expect(homeHtml).toContain('aria-controls="primary-navigation"');
   expect(homeHtml).toContain('id="primary-navigation"');
@@ -201,6 +200,7 @@ git commit -m "feat: add polished responsive site shell"
 ```ts
 expect(homeHtml).toContain('class="home-hero"');
 expect(homeHtml).toContain('class="home-hero__background"');
+expect(homeHtml).toContain('class="site-header site-header--overlay"');
 expect(homeHtml).toContain('fetchpriority="high"');
 expect(homeHtml).toContain('article-card article-card--featured');
 expect(homeHtml).toContain('images/spring-blogs/hero-background.jpg');
