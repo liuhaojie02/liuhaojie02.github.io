@@ -27,7 +27,7 @@ export const site = {
     { label: '关于', href: withBasePath('about/') },
   ],
   socialLinks: [
-    { label: 'GitHub', href: 'https://github.com/liuhaojie' },
+    { label: 'GitHub', href: 'https://github.com/liuhaojie02' },
     // 请在发布前替换成你的真实邮箱。
     { label: '邮箱', href: 'mailto:your-email@example.com' },
   ],

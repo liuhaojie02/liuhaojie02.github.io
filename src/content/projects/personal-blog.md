@@ -7,8 +7,8 @@ tags:
   - TypeScript
   - Markdown
 featured: true
-url: https://liuhaojie.github.io
-repository: https://github.com/liuhaojie/liuhaojie.github.io
+url: https://liuhaojie02.github.io
+repository: https://github.com/liuhaojie02/liuhaojie02.github.io
 ---
 
 > 编辑提示：发布前请确认上面的站点和仓库链接，并把项目说明替换为你的实际成果。
