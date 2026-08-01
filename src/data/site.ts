@@ -17,6 +17,8 @@ interface SiteAuthor {
   location?: string;
 }
 
+type EditableCollection = 'articles' | 'notes';
+
 const author: SiteAuthor = {
   name: 'liuhaojie',
   intro: '你好，这里是 liuhaojie 的个人博客，记录技术实践、写作方法与持续完成的作品。',
@@ -27,6 +29,18 @@ export const site = {
   title: 'liuhaojie 的个人博客',
   description: '记录技术实践、日常思考与持续完成的作品。',
   author,
+  repository: {
+    url: 'https://github.com/liuhaojie02/liuhaojie02.github.io',
+    branch: 'main',
+  },
+  assets: {
+    // Authorized reuse from https://github.com/RRTiamo/spring_blogs.
+    homeHero: {
+      src: withBasePath('images/spring-blogs/hero-background.jpg'),
+      credit: 'Hero image from RRTiamo/spring_blogs (authorized reuse)',
+      sourceUrl: 'https://github.com/RRTiamo/spring_blogs',
+    },
+  },
   navigation: [
     { label: '首页', href: withBasePath('') },
     { label: '文章', href: withBasePath('articles/') },
@@ -38,3 +52,10 @@ export const site = {
     { label: 'GitHub', href: 'https://github.com/liuhaojie02' },
   ],
 } as const;
+
+export function getGitHubEditUrl(collection: EditableCollection, entryId: string): string | undefined {
+  const normalizedId = entryId.replace(/^\/+|\/+$/g, '');
+  if (!normalizedId || !/^[a-zA-Z0-9/_-]+$/.test(normalizedId)) return undefined;
+
+  return `${site.repository.url}/edit/${site.repository.branch}/src/content/${collection}/${normalizedId}.md`;
+}

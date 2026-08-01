@@ -19,4 +19,15 @@ describe('site navigation', () => {
       '/personal-blog/about/',
     ]);
   });
+
+  it('creates GitHub edit links only for configured Markdown collections', async () => {
+    const { getGitHubEditUrl } = await import('../src/data/site');
+
+    expect(getGitHubEditUrl('articles', 'start-here')).toBe(
+      'https://github.com/liuhaojie02/liuhaojie02.github.io/edit/main/src/content/articles/start-here.md',
+    );
+    expect(getGitHubEditUrl('notes', 'keep-a-small-log')).toContain(
+      '/src/content/notes/keep-a-small-log.md',
+    );
+  });
 });
