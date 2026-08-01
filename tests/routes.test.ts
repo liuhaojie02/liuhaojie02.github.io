@@ -17,7 +17,7 @@ const launchPlaceholderMarkers = [
   '编辑提示：这是示例文章。请用你的真实项目、数据和复盘结论替换本文。',
   '编辑提示：这是示例随笔，请替换成你的真实观察。',
   '编辑提示：发布前请确认上面的站点和仓库链接，并把项目说明替换为你的实际成果。',
-  '编辑提示：这是作品占位条目。请替换标题、简介、年份、技术标签和正文；如果项目已上线，可在 front matter 中添加 `url` 与 `repository`。',
+  '编辑提示：这是作品占位条目。请替换标题、简介、年份、技术标签和正文；如果项目已上线，可在 front matter 中添加 <code>url</code> 与 <code>repository</code>。',
 ];
 
 function findLaunchPlaceholders(publicOutput: string): string[] {
@@ -107,6 +107,13 @@ describe('launch placeholder detection', () => {
       'your-email@example.com',
       '编辑提示：这是示例文章。请把其中的经历、目标和表达替换成你自己的内容。',
     ]);
+  });
+
+  it('识别渲染为 HTML 的旧作品模板提示', () => {
+    const renderedLegacyCallout =
+      '编辑提示：这是作品占位条目。请替换标题、简介、年份、技术标签和正文；如果项目已上线，可在 front matter 中添加 <code>url</code> 与 <code>repository</code>。';
+
+    expect(findLaunchPlaceholders(renderedLegacyCallout)).toEqual([renderedLegacyCallout]);
   });
 });
 
