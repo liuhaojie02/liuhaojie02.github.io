@@ -1,14 +1,17 @@
 import { existsSync } from 'node:fs';
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, readdir, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { build } from 'astro';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { site } from '../src/data/site';
 
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
+const launchPlaceholderMarkers = ['your-email@example.com', '请替换', '编辑提示'];
 let outputDirectory: string;
 let homeHtml: string;
+let publicHtml: string;
 
 describe('public routes', () => {
   beforeAll(async () => {
@@ -21,6 +24,13 @@ describe('public routes', () => {
     });
 
     homeHtml = await readFile(join(outputDirectory, 'index.html'), 'utf8');
+    const outputFiles = await readdir(outputDirectory, { recursive: true });
+    const renderedPages = await Promise.all(
+      outputFiles
+        .filter((filename) => filename.endsWith('.html'))
+        .map((filename) => readFile(join(outputDirectory, filename), 'utf8')),
+    );
+    publicHtml = renderedPages.join('\n');
   }, 30_000);
 
   afterAll(async () => {
@@ -52,6 +62,18 @@ describe('public routes', () => {
     expect(detailHtml).toContain('用尽量少的操作记录一次专注时段');
     expect(detailHtml).toContain('>2026<');
     expect(detailHtml).toContain('>Web<');
+  });
+
+  it('不发布启动占位符或缺失的联系信息', async () => {
+    const publicSiteDataAndPages = `${JSON.stringify(site)}\n${publicHtml}`;
+    const exposedMarkers = launchPlaceholderMarkers.filter((marker) =>
+      publicSiteDataAndPages.includes(marker),
+    );
+    const aboutHtml = await readFile(join(outputDirectory, 'about', 'index.html'), 'utf8');
+
+    expect(exposedMarkers).toEqual([]);
+    expect(aboutHtml).not.toContain('mailto:');
+    expect(aboutHtml).not.toContain('目前所在：');
   });
 });
 

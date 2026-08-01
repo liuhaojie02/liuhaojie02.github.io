@@ -11,6 +11,6 @@ url: https://liuhaojie02.github.io
 repository: https://github.com/liuhaojie02/liuhaojie02.github.io
 ---
 
-> 编辑提示：发布前请确认上面的站点和仓库链接，并把项目说明替换为你的实际成果。
+本站把内容组织、静态生成和公开发布放在同一套轻量流程中。
 
 这个项目将长文、短随笔和作品统一放在 Git 中维护，通过静态构建获得轻量、可迁移的个人网站。

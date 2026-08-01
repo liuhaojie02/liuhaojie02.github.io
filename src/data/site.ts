@@ -10,15 +10,23 @@ export function toBaseAwareAssetUrl(assetUrl: string, base = import.meta.env.BAS
   return withBasePath(assetUrl, base);
 }
 
+interface SiteAuthor {
+  name: string;
+  intro: string;
+  bio: string;
+  location?: string;
+}
+
+const author: SiteAuthor = {
+  name: 'liuhaojie',
+  intro: '你好，这里是 liuhaojie 的个人博客，记录技术实践、写作方法与持续完成的作品。',
+  bio: '我在这里整理项目实践中学到的方法，也记录对技术、工具、写作与个人工作流的思考。',
+};
+
 export const site = {
   title: 'liuhaojie 的个人博客',
   description: '记录技术实践、日常思考与持续完成的作品。',
-  author: {
-    name: 'liuhaojie',
-    intro: '你好，我是 liuhaojie，一名持续学习、写作和创造的开发者。',
-    bio: '这里是个人简介占位文字。请替换为你的经历、关注方向，以及希望读者了解的信息。',
-    location: '请替换为你的所在地',
-  },
+  author,
   navigation: [
     { label: '首页', href: withBasePath('') },
     { label: '文章', href: withBasePath('articles/') },
@@ -28,7 +36,5 @@ export const site = {
   ],
   socialLinks: [
     { label: 'GitHub', href: 'https://github.com/liuhaojie02' },
-    // 请在发布前替换成你的真实邮箱。
-    { label: '邮箱', href: 'mailto:your-email@example.com' },
   ],
 } as const;
