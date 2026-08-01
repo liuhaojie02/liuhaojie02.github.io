@@ -7,21 +7,26 @@ interface Props {
   entry: CollectionEntry<'articles'> | CollectionEntry<'notes'>;
   href: string;
   headingLevel?: 'h2' | 'h3';
+  featured?: boolean;
 }
 
-const { entry, href, headingLevel = 'h2' } = Astro.props;
+const { entry, href, headingLevel = 'h2', featured = false } = Astro.props;
 const Heading = headingLevel;
+const searchableText = [...entry.data.tags, entry.data.title].join(' ').toLocaleLowerCase();
 ---
 
-<article class="article-card">
+<article
+  class:list={['article-card', { 'article-card--featured': featured }]}
+  data-tags={searchableText}
+>
   <ArticleMeta
     pubDate={entry.data.pubDate}
     readingMinutes={getReadingMinutes(entry.body ?? '')}
     tags={entry.data.tags}
   />
-  <Heading><a href={href}>{entry.data.title}</a></Heading>
+  <Heading><a class="article-card__title-link" href={href}>{entry.data.title}</a></Heading>
   <p>{entry.data.description}</p>
-  <a class="text-link" href={href} aria-label={`阅读《${entry.data.title}》`}>
+  <a class="text-link article-card__read-link" href={href} aria-label={`阅读《${entry.data.title}》`}>
     继续阅读 <span aria-hidden="true">→</span>
   </a>
 </article>

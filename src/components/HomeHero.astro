@@ -1,0 +1,31 @@
+---
+interface Props {
+  intro: string;
+  description: string;
+  ctaHref: string;
+  backgroundSrc: string;
+}
+
+const { intro, description, ctaHref, backgroundSrc } = Astro.props;
+---
+
+<section class="home-hero" aria-labelledby="hero-title">
+  <img
+    class="home-hero__background"
+    src={backgroundSrc}
+    alt=""
+    width="4200"
+    height="2800"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="home-hero__overlay" aria-hidden="true"></div>
+  <div class="shell home-hero__content">
+    <p class="home-hero__eyebrow">Personal journal · 个人写作</p>
+    <h1 id="hero-title">{intro}</h1>
+    <p class="home-hero__copy">{description}</p>
+    <a class="home-hero__cta" href={ctaHref}>
+      开始阅读 <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import ArticleCard from '../components/ArticleCard.astro';
+import HomeHero from '../components/HomeHero.astro';
 import PortfolioCard from '../components/PortfolioCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -15,13 +16,13 @@ const latestArticles = getLatestEntries(articles, 3);
 const featuredProjects = getFeaturedEntries(projects, 2);
 ---
 
-<BaseLayout>
-  <section class="hero shell" aria-labelledby="hero-title">
-    <p class="eyebrow">个人写作 · 项目实践</p>
-    <h1 id="hero-title">{site.author.intro}</h1>
-    <p class="hero-copy">{site.description}在这里，把短暂的经验整理成可以长期返回的内容。</p>
-    <a class="button-link" href={withBasePath('articles/')}> 开始阅读 <span aria-hidden="true">→</span></a>
-  </section>
+<BaseLayout headerMode="overlay" pageClass="home-page">
+  <HomeHero
+    intro={site.author.intro}
+    description={`${site.description}在这里，把短暂的经验整理成可以长期返回的内容。`}
+    ctaHref={withBasePath('articles/')}
+    backgroundSrc={site.assets.homeHero.src}
+  />
 
   <section class="home-section shell" aria-labelledby="latest-heading">
     <SectionHeading
@@ -33,8 +34,13 @@ const featuredProjects = getFeaturedEntries(projects, 2);
       id="latest-heading"
     />
     <div class="article-grid">
-      {latestArticles.map((entry) => (
-        <ArticleCard entry={entry} href={withBasePath(`articles/${entry.id}/`)} headingLevel="h3" />
+      {latestArticles.map((entry, index) => (
+        <ArticleCard
+          entry={entry}
+          href={withBasePath(`articles/${entry.id}/`)}
+          headingLevel="h3"
+          featured={index === 0}
+        />
       ))}
     </div>
   </section>

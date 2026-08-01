@@ -63,8 +63,19 @@ describe('public routes', () => {
     }
   });
 
+  it('渲染图像主导的首页英雄区与突出文章', () => {
+    expect(homeHtml).toContain('class="home-hero"');
+    expect(homeHtml).toContain('class="home-hero__background"');
+    expect(homeHtml).toContain('class="site-header site-header--overlay"');
+    expect(homeHtml).toContain('fetchpriority="high"');
+    expect(homeHtml).toContain('article-card article-card--featured');
+    expect(homeHtml).toContain('images/spring-blogs/hero-background.jpg');
+    expect(homeHtml).not.toContain('raw.githubusercontent.com/RRTiamo');
+    expect(homeHtml.indexOf('最新文章')).toBeLessThan(homeHtml.indexOf('作品精选'));
+  });
+
   it('renders an accessible compact navigation shell', () => {
-    expect(homeHtml).not.toContain('site-header--overlay');
+    expect(homeHtml).toContain('site-header--overlay');
     expect(homeHtml).toContain('data-menu-toggle');
     expect(homeHtml).toContain('aria-controls="primary-navigation"');
     expect(homeHtml).toContain('id="primary-navigation"');
