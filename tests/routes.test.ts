@@ -63,6 +63,13 @@ describe('public routes', () => {
     }
   });
 
+  it('renders an accessible compact navigation shell', () => {
+    expect(homeHtml).not.toContain('site-header--overlay');
+    expect(homeHtml).toContain('data-menu-toggle');
+    expect(homeHtml).toContain('aria-controls="primary-navigation"');
+    expect(homeHtml).toContain('id="primary-navigation"');
+  });
+
   it('为没有外部链接的作品提供内部详情路由', async () => {
     const projectsHtml = await readFile(join(outputDirectory, 'projects', 'index.html'), 'utf8');
     const detailPath = join(outputDirectory, 'projects', 'focus-tool', 'index.html');

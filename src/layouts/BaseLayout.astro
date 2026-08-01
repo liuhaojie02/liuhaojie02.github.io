@@ -1,17 +1,20 @@
 ---
 import { site } from '../data/site';
+import SiteHeader from '../components/SiteHeader.astro';
 import '../styles/global.css';
 
 interface Props {
   title?: string;
   description?: string;
   pageClass?: string;
+  headerMode?: 'default' | 'overlay';
 }
 
 const {
   title,
   description = site.description,
   pageClass = '',
+  headerMode = 'default',
 } = Astro.props;
 const documentTitle = title ? `${title} · ${site.author.name}` : site.title;
 const homeHref = site.navigation[0].href;
@@ -24,36 +27,18 @@ const homeHref = site.navigation[0].href;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f5f1e8" />
+    <meta name="theme-color" content="#f6f8f7" />
     <title>{documentTitle}</title>
   </head>
   <body class={pageClass}>
     <a class="skip-link" href="#main-content">跳至主要内容</a>
-    <header class="site-header">
-      <div class="shell header-inner">
-        <a class="site-mark" href={homeHref} aria-label={`${site.author.name} 首页`}>
-          <span aria-hidden="true">L</span>
-          <strong>{site.author.name}</strong>
-        </a>
-
-        <nav aria-label="主导航">
-          <ul class="nav-list">
-            {site.navigation.map((item) => {
-              const isHome = item.href === homeHref;
-              const isCurrent = isHome
-                ? Astro.url.pathname === item.href
-                : Astro.url.pathname.startsWith(item.href);
-
-              return (
-                <li>
-                  <a href={item.href} aria-current={isCurrent ? 'page' : undefined}>{item.label}</a>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <SiteHeader
+      navigation={site.navigation}
+      homeHref={homeHref}
+      brandName={site.author.name}
+      overlay={headerMode === 'overlay'}
+    />
+    <script is:inline>document.documentElement.classList.add('has-js');</script>
 
     <main id="main-content">
       <slot />
@@ -70,6 +55,7 @@ const homeHref = site.navigation[0].href;
             ))}
           </ul>
         </div>
+        <p class="footer-credit">首页图像：{site.assets.homeHero.credit}</p>
       </div>
     </footer>
   </body>

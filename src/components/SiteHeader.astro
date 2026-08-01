@@ -1,0 +1,67 @@
+---
+interface NavigationItem {
+  readonly label: string;
+  readonly href: string;
+}
+
+interface Props {
+  navigation: readonly NavigationItem[];
+  homeHref: string;
+  brandName: string;
+  overlay?: boolean;
+}
+
+const { navigation, homeHref, brandName, overlay = false } = Astro.props;
+---
+
+<header class:list={['site-header', { 'site-header--overlay': overlay }]} data-site-header>
+  <div class="shell header-inner">
+    <a class="site-mark" href={homeHref} aria-label={`${brandName} 首页`}>
+      <span aria-hidden="true">L</span>
+      <strong>{brandName}</strong>
+    </a>
+
+    <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-navigation">
+      <span class="visually-hidden">打开导航</span><span aria-hidden="true"></span>
+    </button>
+
+    <nav id="primary-navigation" aria-label="主导航">
+      <ul class="nav-list">
+        {navigation.map((item) => {
+          const isHome = item.href === homeHref;
+          const isCurrent = isHome
+            ? Astro.url.pathname === item.href
+            : Astro.url.pathname.startsWith(item.href);
+
+          return (
+            <li>
+              <a href={item.href} aria-current={isCurrent ? 'page' : undefined}>{item.label}</a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  const menuToggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+
+  if (header && menuToggle) {
+    const closeMenu = () => {
+      header.removeAttribute('data-menu-open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    };
+
+    menuToggle.addEventListener('click', () => {
+      const isOpen = header.hasAttribute('data-menu-open');
+      header.toggleAttribute('data-menu-open', !isOpen);
+      menuToggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    header.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeMenu();
+    });
+  }
+</script>
