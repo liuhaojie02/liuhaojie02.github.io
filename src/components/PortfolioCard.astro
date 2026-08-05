@@ -11,7 +11,7 @@ const { entry, href, headingLevel = 'h2' } = Astro.props;
 const Heading = headingLevel;
 ---
 
-<article class="portfolio-card">
+<article class="portfolio-card" data-project-card>
   <div class="portfolio-card__topline">
     <span class="project-year">{entry.data.year}</span>
     {entry.data.featured && <span class="featured-label">精选</span>}

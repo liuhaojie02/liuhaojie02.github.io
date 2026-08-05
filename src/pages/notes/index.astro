@@ -9,12 +9,12 @@ const notes = getPublishedEntries(await getCollection('notes'));
 ---
 
 <BaseLayout title="随笔" description="尚未长成长文的想法与日常观察。">
-  <header class="page-header shell">
+  <header class="page-header page-header--editorial shell">
     <p class="eyebrow">Notes</p>
     <h1>随笔</h1>
     <p>短一些，轻一些。记下尚在发生的观察，也给未来的长文留个起点。</p>
   </header>
-  <div class="listing shell listing--notes">
+  <div class="listing listing--editorial shell listing--notes">
     {notes.map((entry) => (
       <ArticleCard entry={entry} href={withBasePath(`notes/${entry.id}/`)} />
     ))}

@@ -8,12 +8,12 @@ const projects = (await getCollection('projects')).sort((a, b) => b.data.year - 
 ---
 
 <BaseLayout title="作品" description="被完成、使用和反复改进的个人项目。">
-  <header class="page-header shell">
+  <header class="page-header page-header--editorial shell">
     <p class="eyebrow">Projects</p>
     <h1>作品</h1>
     <p>我更关心东西是否真正完成，是否帮助了某个具体的人，以及从中学到了什么。</p>
   </header>
-  <div class="portfolio-grid portfolio-grid--page shell">
+  <div class="portfolio-grid portfolio-grid--page portfolio-grid--editorial shell">
     {projects.map((entry) => <PortfolioCard entry={entry} href={withBasePath(`projects/${entry.id}/`)} />)}
   </div>
 </BaseLayout>

@@ -574,6 +574,19 @@ h3 { font-size: clamp(1.35rem, 2.5vw, 1.75rem); }
 .page-header { padding-block: clamp(4.5rem, 8vw, 7rem) 3.25rem; }
 .page-header h1 { margin-bottom: 1rem; }
 
+.page-header--editorial {
+  max-width: 62rem;
+  padding-block: clamp(7rem, 13vw, 10rem) clamp(2.5rem, 5vw, 4rem);
+}
+
+.page-header--editorial h1 {
+  max-width: 12ch;
+  font-size: clamp(42px, 4.2vw, 64px);
+  text-wrap: balance;
+}
+
+.page-header--editorial > p:not(.eyebrow) { max-width: 32em; }
+
 .listing { padding-bottom: clamp(5rem, 9vw, 8rem); }
 
 .listing .article-card {
@@ -593,8 +606,44 @@ h3 { font-size: clamp(1.35rem, 2.5vw, 1.75rem); }
 
 .listing--notes { max-width: 54rem; margin-inline: max(1.25rem, calc((100vw - 72rem) / 2)); }
 
+.listing--editorial .article-card {
+  grid-template-columns: minmax(8rem, .3fr) minmax(0, 1fr);
+  border-top-color: color-mix(in srgb, var(--ink) 16%, transparent);
+}
+
+.listing--editorial .article-card > p { max-width: 32em; }
+
 .portfolio-grid--page { padding-bottom: clamp(5rem, 9vw, 8rem); }
 .portfolio-grid--page .portfolio-card { min-height: 23rem; }
+
+.portfolio-grid--editorial { gap: clamp(1rem, 2.2vw, 1.65rem); }
+
+[data-project-card] {
+  border-top-color: color-mix(in srgb, var(--ink) 18%, transparent);
+  transition: border-top-color 160ms ease, transform 160ms ease;
+}
+
+[data-project-card]:hover {
+  border-top-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+[data-project-card] .portfolio-card__topline {
+  margin-bottom: 2rem;
+  color: var(--muted);
+  font-weight: 650;
+}
+
+[data-project-card] .tag-list { gap: 0.3rem 0.65rem; }
+
+[data-project-card] .tag-list li {
+  padding: 0;
+  border: 0;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+[data-project-card] > p { max-width: 32em; }
 
 .article-shell { max-width: 51rem; padding-block: clamp(4.5rem, 8vw, 7rem); }
 .article-header { margin-bottom: 3.2rem; }
@@ -637,9 +686,11 @@ h3 { font-size: clamp(1.35rem, 2.5vw, 1.75rem); }
 .prose pre code { padding: 0; background: transparent; }
 
 .about-layout { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 1.1fr); gap: clamp(3rem, 9vw, 9rem); padding-block: clamp(4.5rem, 8vw, 7rem); }
+.about-layout--editorial { gap: clamp(3.5rem, 10vw, 10rem); padding-block: clamp(2.5rem, 5vw, 4rem) clamp(6rem, 11vw, 9rem); }
 .about-intro { padding: 0; }
 .about-intro h1 { font-size: clamp(2.8rem, 5.4vw, 4.8rem); }
 .about-content { padding-top: 0.8rem; }
+.about-layout--editorial .about-content p { max-width: 32em; }
 .about-content section + section { margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--line); }
 .about-content h2 { margin-bottom: 0.9rem; font-size: clamp(1.6rem, 3vw, 2.15rem); }
 .contact-list { display: grid; gap: 0.6rem; margin: 1.2rem 0; }

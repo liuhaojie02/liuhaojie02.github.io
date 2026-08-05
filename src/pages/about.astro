@@ -6,8 +6,8 @@ const contactLinks = site.socialLinks.filter((link) => link.label.trim() && link
 ---
 
 <BaseLayout title="关于" description={`关于 ${site.author.name} 与这个站点。`}>
-  <div class="about-layout shell">
-    <header class="page-header about-intro">
+  <div class="about-layout about-layout--editorial shell">
+    <header class="page-header page-header--editorial about-intro">
       <p class="eyebrow">About</p>
       <h1>你好，我是 {site.author.name}。</h1>
       <p>{site.author.bio}</p>

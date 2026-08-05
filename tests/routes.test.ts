@@ -88,6 +88,18 @@ describe('public routes', () => {
     expect(homeHtml).toContain('id="primary-navigation"');
   });
 
+  it('为内页渲染编辑排版与间距系统的结构挂钩', async () => {
+    const articlesHtml = await readFile(join(outputDirectory, 'articles', 'index.html'), 'utf8');
+    const projectsHtml = await readFile(join(outputDirectory, 'projects', 'index.html'), 'utf8');
+    const aboutHtml = await readFile(join(outputDirectory, 'about', 'index.html'), 'utf8');
+
+    expect(articlesHtml).toContain('page-header page-header--editorial');
+    expect(articlesHtml).toContain('listing listing--editorial');
+    expect(projectsHtml).toContain('portfolio-grid--editorial');
+    expect(projectsHtml).toContain('data-project-card');
+    expect(aboutHtml).toContain('about-layout--editorial');
+  });
+
   it('为没有外部链接的作品提供内部详情路由', async () => {
     const projectsHtml = await readFile(join(outputDirectory, 'projects', 'index.html'), 'utf8');
     const detailPath = join(outputDirectory, 'projects', 'focus-tool', 'index.html');
