@@ -213,10 +213,20 @@ Check `/`, `/articles/`, `/articles/start-here/`, `/notes/`, `/projects/`, and `
 
 - [ ] **Step 3: Push main and confirm Pages**
 
+From the primary checkout after the branch-level final review has passed, fast-forward the isolated implementation branch into `main`:
+
+```bash
+git -C /Users/macbookpro2020/Documents/个人博客 merge --ff-only codex/editorial-ui-refinement
+git -C /Users/macbookpro2020/Documents/个人博客 status -sb
+git -C /Users/macbookpro2020/Documents/个人博客 push origin main
+gh run list --repo liuhaojie02/liuhaojie02.github.io --commit "$(git -C /Users/macbookpro2020/Documents/个人博客 rev-parse HEAD)" --limit 1 --json databaseId,status,conclusion,url
+```
+
+The release controller performs this merge/push; the Task 3 implementer validates the feature worktree and must not push an unmerged `main` ref.
+
 ```bash
 git status -sb
-git push origin main
-gh run list --repo liuhaojie02/liuhaojie02.github.io --commit "$(git rev-parse HEAD)" --limit 1 --json databaseId,status,conclusion,url
+git rev-parse HEAD
 ```
 
 Wait for the run to complete successfully, then assert the public home HTML contains `在安静处，持续创造。` and does not contain the old long author introduction inside an `h1`.
